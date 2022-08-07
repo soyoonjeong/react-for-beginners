@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id = 'root'></div>
+    </body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+        function App() {
+            const [counter, setCounter] = React.useState(0) // => [0,f], 값과 그 값을 변경하는 함수 
+            // modifier는 값을 바꾸고 리렌더링해줌
+            const onClick = () => {
+                // 1. 직접 값 설정
+                setCounter(counter+1);
+                // 2. 함수 전달하기 
+                setCounter((current)=>current+1);
+                // 전달인자로 현재 state를 얻게 해줌
+                // 현재 state 기반으로 다음 state를 계산하고 싶다면 함수 이용
+                
+                // React는 리렌더링해도 바뀐 부분만 생성됨! 여기서는 counter만 
+            };
+            return(
+            <div>
+                <h3>Total clicks : {counter}</h3>
+                <button onClick = {onClick}>Click me!</button> 
+            </div>
+            );
+        }          
+        ReactDOM.render(<App/>, root) //자동 리렌더링 배움 
+    </script>
+</html> 

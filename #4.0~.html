@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id = 'root'></div>
+    </body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+        function Btn({text, fontSize = 12, onClick}){ // 컴포넌트의 속성들을 object 형태로 전달받음 {"text":"ddd","color":"blue",...}
+            console.log(text, "was rendered"); // 재사용하게끔 컴포넌트 설정
+            return(
+                <button 
+                    onClick = {onClick}
+                    style = {{
+                        backgroundColor : "cornflowerblue",
+                        color : "white",
+                        border : 0,
+                        borderRadius : 10,
+                        padding : "10px 20px",
+                        margin : "0px 10px",
+                        fontSize
+                }}>{text}</button>
+            )
+        
+        }
+        const MemorizedBtn = React.memo(Btn); //MEMO
+        Btn.propTypes = { //PROP TYPE
+            text : PropTypes.string.isRequired,
+            fontSize : PropTypes.number
+        }
+        function App(){
+            const  [value, setValue] = React.useState("save changes");
+            const changeValue = ()=> {setValue("revert changes")};
+            // 커스텀 컴포넌트에 붙은 onClick이기에 그냥 prop으로 전달되고 컴포넌트 내에서 사용해야 적용됨 
+            return (
+                // props는 데이터를 전달하는 방식 (부모 컴포넌트에서 자식 컴포넌트로)
+                // Btn({text:'save'})랑 <Btn text = 'save'>랑 같음
+                <div> 
+                    <MemorizedBtn text = {value} fontSize = {20} onClick = {changeValue} /> 
+                    <MemorizedBtn text = 'change'/>
+                </div>
+                // React Memo : props 변경되지 않으면 리렌더링 안하게 함
+                // 부모 컴포넌트 props 변경 -> 자식 컴포넌트 다 리렌더링 
+            )
+        }
+        ReactDOM.render(<App/>, root) //자동 리렌더링 배움 
+    </script>
+</html> 
